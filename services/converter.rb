@@ -2,7 +2,7 @@ module Service
   class Converter
     attr_accessor :current_question
 
-    def self.convert(strings, result, sep: "\n", question_prefix: '^\s*\d+\.', option_prefix: '^\s*.+?\.', option_correct: '(\+|\*?)', answers: nil)
+    def self.convert(strings, result, question_prefix: '^\s*\d+\.', option_prefix: '^\s*.+?\.', option_correct: '(\+|\*?)')
       # init RegExps
       question_regexp = Regexp.new question_prefix + '\s*(.+?)\:?\s*$'
       option_regexp = Regexp.new option_prefix + '\s*(.+?)' + option_correct + '\s*$'
@@ -12,9 +12,6 @@ module Service
       until current_string =~ question_regexp do
         current_string = strings.shift
       end
-
-      # open answers file if given
-      answers = File.open(answers) unless answers.nil?
 
       loop do
         # finish if EOF
@@ -28,12 +25,8 @@ module Service
           @current_question = Question.new
 
           @current_question.title = $1
-          @current_question.correct_indexes = get_correct(answers, sep) unless answers.nil?
-          @option_number = 1
         elsif current_string =~ option_regexp # add option
-          @current_question.options.push(body: $1, correct: !($2 == '') ||
-                                                            @current_question.correct?(@option_number))
-          @option_number += 1
+          @current_question.options.push(body: $1, correct: !($2 == ''))
         elsif current_string =~ /^\s*$/ # empty line
           current_string = strings.shift
           next
@@ -46,10 +39,6 @@ module Service
 
       @current_question = nil
       result
-    end
-
-    def self.get_correct(file, sep)
-      file.gets(sep).split(', ').map { |c| c.to_i }
     end
   end
 end
