@@ -1,0 +1,29 @@
+%form{action: "/", method: "post"}
+  %textarea{name: "quiz", cols: 30, rows: 10, placeholder: "Type quiz here"}
+  %p
+    Select a question prefix
+    %br
+    %select{name: "question_prefix"}
+      %option{value: "^\\d+\\."} Number with point
+      %option{value: "^\\d+\\)"} Number with close-bracket
+  %p
+    Select an option prefix...
+    %br
+    %select{name: "option_prefix"}
+      %option{value: "^\\s*.+?\\."} Any character with point
+      %option{value: "^\\s*[A-Z]\\."} Capital latin letter with point
+      %option{value: "^\\s*[A-z]\\."} Any latin letter with point
+      %option{value: "^\\s*[a-z]\\."} Small latin letter with point
+      %option{value: "^\\s*[a-z]\\)"} Small latin letter with close-bracket
+      %option{value: "^\\s*[A-Z]\\)"} Capital latin letter with close-bracket
+      %option{value: "^\\s*[A-z]\\)"} Any latin letter with close-bracket
+    / %br
+    /   or type yourself
+    /   %a.link{href: "http://rubular.com"} RegExp
+    / %input{type: "text", placeholder: "[a-z]\\.", name: "option_prefix"}
+  %p
+    Type correct option suffix
+    %br
+    %input{type: "text", name: "option_correct", value: "+"}
+  %p
+    %input{type: "submit", value: "Submit"}

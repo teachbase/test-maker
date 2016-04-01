@@ -28,6 +28,7 @@ module Service
       @correct_indexes.include?(option_number)
     end
 
+
     def escape_gift_chars(str)
       pattern = /[#=~\{\}\/\/:\[\]]|\../
       str.gsub(pattern) { |match| '\\' + match }

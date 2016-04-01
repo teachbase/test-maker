@@ -2,13 +2,20 @@ module Service
   require './services/converter'
   require './services/question'
 
-  def convert(strings, options = {})
-    strings = Converter.convert(strings, Array.new, options)
-    
-    result = File.new("result.txt", "w")
-    strings.each do |string|
-      result.write string + "\n"
+  def convert(quiz, options = {})
+    strings = quiz.split(/[\n\r]/).map do |string|
+      string.gsub(/[\n\r]/) { |_| '' }
     end
-    result.close
+
+    Converter.convert(strings, Array.new, options).join('')
+  end
+
+  def escape_regexp_chars(str)
+    pattern = /[\.\+\*\?]/
+    str.gsub(pattern) { |match| '\\' + match }
+  end
+
+  def to_suffix(str)
+    '(' + escape_regexp_chars(str) + '?)'
   end
 end

@@ -1,22 +1,22 @@
+require './service'
+
+Cuba.plugin Service
+
 Cuba.define do
   on get do
-    on "hello" do
-      res.write partial("hello")
-    end
-
-    on "file" do
-      res.write partial("file")
+    on "new" do
+      res.write partial("new")
     end
   end
 
   on post do
     on root do
-      on param(:quiz) do |quiz|
-        strings = quiz.split(/[\n\r]/).map do |string|
-          string.gsub(/[\n\r]/) { |_| '' }
-        end
+      on param(:quiz), param(:question_prefix),
+                       param(:option_prefix),
+                       param(:option_correct, "(\\+|\\*?)") do |quiz, qp, op, oc|
+        oc = to_suffix oc
 
-        @quiz = convert(strings)
+        @string = convert(quiz, question_prefix: qp, option_prefix: op, option_correct: oc)
 
         res.write partial("gift")
       end
