@@ -1,0 +1,12 @@
+%ul
+  - questions.each do |question|
+    %li.question-item
+      = question.title
+      %ul
+        - question.options.each do |option|
+          %li.option-item
+            .field.correct
+              = option[:correct] ? '+' : ' '
+            .field.body
+              = option[:body]
+%a{href: filename, download: true} Download gift

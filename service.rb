@@ -7,7 +7,7 @@ module Service
       string.gsub(/[\n\r]/) { |_| '' }
     end
 
-    Converter.convert(strings, Array.new, options).join('')
+    Converter.convert(strings, options)
   end
 
   def escape_regexp_chars(str)

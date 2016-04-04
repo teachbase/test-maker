@@ -2,7 +2,7 @@ module Service
   class Converter
     attr_accessor :current_question
 
-    def self.convert(strings, result, question_prefix: '^\s*\d+\.', option_prefix: '^\s*.+?\.', option_correct: '(\+|\*?)')
+    def self.convert(strings, question_prefix: '^\s*\d+\.', option_prefix: '^\s*.+?\.', option_correct: '(\+|\*?)')
       # init RegExps
       question_regexp = Regexp.new question_prefix + '\s*(.+?)\:?\s*$'
       option_regexp = Regexp.new option_prefix + '\s*(.+?)' + option_correct + '\s*$'
@@ -13,14 +13,16 @@ module Service
         current_string = strings.shift
       end
 
+      result = []
+
       loop do
         # finish if EOF
-        @current_question.write(result) if current_string.nil? && !@current_question.nil?
+        result << @current_question if current_string.nil? && !@current_question.nil?
         break if current_string.nil?
         current_string = current_string.chomp.sub("\xEF\xBB\xBF", "")
 
         if current_string =~ question_regexp # new question
-          @current_question.write result unless @current_question.nil?
+          result << @current_question unless @current_question.nil?
 
           @current_question = Question.new
 

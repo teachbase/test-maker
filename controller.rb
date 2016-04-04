@@ -5,25 +5,34 @@ Cuba.plugin Service
 Cuba.define do
   on get do
     on "new" do
-      res.write partial("new")
+      on root do
+        res.write partial("new")
+      end
     end
   end
 
   on post do
     on root do
-      on param(:quiz), param(:question_prefix),
-                       param(:option_prefix),
-                       param(:option_correct, "(\\+|\\*?)") do |quiz, qp, op, oc|
-        oc = to_suffix oc
+      on param(:quiz) do |quiz|
+        quiz["option_correct"] = "+|*" if quiz["option_correct"].length == 0
+        quiz["option_correct"] = to_suffix quiz["option_correct"]
 
-        @string = convert(quiz, question_prefix: qp, option_prefix: op, option_correct: oc)
+        questions = convert(quiz["body"], question_prefix: quiz["question_prefix"],
+                                          option_prefix: quiz["option_prefix"],
+                                          option_correct: quiz["option_correct"])
+        path = "/upload/result_#{Time.now.strftime("%Y_%m_%d-%H_%M_%S")}.txt"
+        result = File.open("public#{path}", "w")
+        questions.each do |question|
+          question.write result
+        end
+        result.close
 
-        res.write partial("gift")
+        res.write partial("quiz_preview", questions: questions, filename: path)
       end
+    end
 
-      on true do
-        res.write "Error"
-      end
+    on true do
+      res.write "Error"
     end
   end
 end
