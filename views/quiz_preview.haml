@@ -4,9 +4,12 @@
       = question.title
       %ul
         - question.options.each do |option|
-          %li.option-item
-            .field.correct
-              = option[:correct] ? '+' : ' '
-            .field.body
-              = option[:body]
+          - if option[:correct]
+            %li.option-item.correct-option{style: "background-color:#009900"}
+              .field.body
+                = option[:body]
+          - else
+            %li.option-item
+              .field.body
+                = option[:body]
 %a{href: filename, download: true} Download gift
