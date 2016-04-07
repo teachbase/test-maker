@@ -2,12 +2,14 @@ require "cuba"
 require "cuba/render"
 require "haml"
 require "pry-byebug"
+require "fileutils"
 
 require "./controller"
 
-Cuba.plugin Cuba::Render
-
-Cuba.settings[:render][:template_engine] = "haml"
-Cuba.settings[:render][:views] = "./views"
+use Rack::Static,
+  urls: ["/upload"],
+  root: "./public"
+use Rack::Session::Cookie,
+  secret: "secret_of_session"
 
 run Cuba

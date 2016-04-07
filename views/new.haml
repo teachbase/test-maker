@@ -1,15 +1,17 @@
-%form{action: "/", method: "post"}
-  %textarea{name: "quiz", cols: 30, rows: 10, placeholder: "Type quiz here"}
+%form#quiz-form{action: "/", method: "post"}
+  %p 
+    %input{type: "text", name: "quiz[theme]", placeholder: "Quiz theme"}
+  %textarea{name: "quiz[body]", cols: 30, rows: 15, placeholder: "Type quiz here"}
   %p
     Select a question prefix
     %br
-    %select{name: "question_prefix"}
+    %select{name: "quiz[question_prefix]"}
       %option{value: "^\\d+\\."} Number with point
       %option{value: "^\\d+\\)"} Number with close-bracket
   %p
-    Select an option prefix...
+    Select an option prefix
     %br
-    %select{name: "option_prefix"}
+    %select{name: "quiz[option_prefix]"}
       %option{value: "^\\s*.+?\\."} Any character with point
       %option{value: "^\\s*[A-Z]\\."} Capital latin letter with point
       %option{value: "^\\s*[A-z]\\."} Any latin letter with point
@@ -17,10 +19,25 @@
       %option{value: "^\\s*[a-z]\\)"} Small latin letter with close-bracket
       %option{value: "^\\s*[A-Z]\\)"} Capital latin letter with close-bracket
       %option{value: "^\\s*[A-z]\\)"} Any latin letter with close-bracket
-      %option{value: "^\\s*\\d\\)"} Number with close-bracket
   %p
     Type correct option suffix
     %br
-    %input{type: "text", name: "option_correct", value: "+"}
+    %input{type: "text", name: "quiz[option_correct]", placeholder: "+"}
   %p
     %input{type: "submit", value: "Submit"}
+    :javascript
+      $( document ).ready(function() {
+        $( "#quiz-form" ).submit(function(event) {
+          data = $( "#quiz-form" ).serialize();
+          $.ajax({
+            type: "POST",
+            url: "/",
+            data: data,
+            dataType: "html"
+          }).done( function (response) {
+            $( "#results" ).html(response)
+          })
+          event.preventDefault();
+        });
+      });
+#results

@@ -5,29 +5,22 @@ module Service
     def initialize
       @title = ''
       @options = []
-      @correct_indexes = []
     end
 
     def write(result)
-      result << "#{ escape_gift_chars @title } {<br>"
+      result.write "#{ escape_gift_chars @title } {\n"
 
-      until @options.empty?
-        current_option = @options.shift
+      @options.each do |current_option|
         if current_option[:correct]
-          current_option[:body] = '=' + escape_gift_chars(current_option[:body])
+          result.write '='
         else
-          current_option[:body] = '~' + escape_gift_chars(current_option[:body])
+          result.write '~'
         end
-        result << "#{ current_option[:body] }<br>"
+        result.write escape_gift_chars(current_option[:body]) + "\n"
       end
 
-      result << "}<br>"
+      result.write "}\n"
     end
-
-    def correct?(option_number)
-      @correct_indexes.include?(option_number)
-    end
-
 
     def escape_gift_chars(str)
       pattern = /[#=~\{\}\/\/:\[\]]|\../
