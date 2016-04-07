@@ -1,14 +1,4 @@
-%a.jquery{href: "http://jquery.com/"} jQuery
-/ %script{src: "https://code.jquery.com/jquery-1.12.0.min.js"}
-/ :javascript
-/   $( document ).ready(function() {
-/     $( ".jquery" ).click(function( event ) {
-/       alert( "The link will no longer take you to jquery.com" );
-/       event.preventDefault();
-/     });
-/   });
-
-%form{action: "/", method: "post"}
+%form#quiz-form{action: "/", method: "post"}
   %p 
     %input{type: "text", name: "quiz[theme]", placeholder: "Quiz theme"}
   %textarea{name: "quiz[body]", cols: 30, rows: 15, placeholder: "Type quiz here"}
@@ -35,4 +25,19 @@
     %input{type: "text", name: "quiz[option_correct]", placeholder: "+"}
   %p
     %input{type: "submit", value: "Submit"}
+    :javascript
+      $( document ).ready(function() {
+        $( "#quiz-form" ).submit(function(event) {
+          data = $( "#quiz-form" ).serialize();
+          $.ajax({
+            type: "POST",
+            url: "/",
+            data: data,
+            dataType: "html"
+          }).done( function (response) {
+            $( "#results" ).html(response)
+          })
+          event.preventDefault();
+        });
+      });
 #results

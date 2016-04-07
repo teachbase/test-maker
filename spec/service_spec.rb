@@ -5,7 +5,12 @@ describe Service do
 
   describe "convert" do
     let(:options) { {} }
-    subject { convert(input, options) }
+    let(:result) { File.open file_path("result"), "w" }
+    subject do
+      convert(input, options).each { |q| q.write(result) }
+      result.close
+      File.read file_path "result"
+    end
 
     context "default" do
       let(:input) { File.read(file_path "input1") }

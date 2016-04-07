@@ -1,6 +1,10 @@
 require './service'
 
 Cuba.plugin Service
+Cuba.plugin Cuba::Render
+
+Cuba.settings[:render][:template_engine] = "haml"
+Cuba.settings[:render][:views] = "./views"
 
 Cuba.define do
   on get do
@@ -10,29 +14,30 @@ Cuba.define do
       end
     end
 
-    on "test" do
-      res.write "Ajax done"
+    on "sess" do
+      res.write session[:message]
+    end
+
+    on root do
+      session[:message] = "Redirected"
+      res.redirect "new"
     end
   end
 
   on post do
     on root do
       on param(:quiz) do |quiz|
-        quiz["theme"] = "result_#{Time.now.strftime("%Y_%m_%d-%H_%M_%S")}" if quiz["theme"] == ""
-        quiz["option_correct"] = "+|*" if quiz["option_correct"] == ""
-        quiz["option_correct"] = to_suffix quiz["option_correct"]
+        set_quiz_options(quiz)
 
         questions = convert(quiz["body"], question_prefix: quiz["question_prefix"],
                                           option_prefix: quiz["option_prefix"],
                                           option_correct: quiz["option_correct"])
-        path = "/upload/#{quiz["theme"]}.txt"
-        result = File.open("public#{path}", "w")
-        questions.each do |question|
-          question.write result
-        end
-        result.close
 
-        render :quiz_preview, questions: questions, filename: path
+        set_path(quiz["theme"]) if session[:filename].nil? || !File.exist?(session[:filename])
+
+        write_result(questions)
+
+        res.write partial :quiz_preview, questions: questions
       end
     end
 

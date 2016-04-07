@@ -14,7 +14,7 @@ module Service
         if current_option[:correct]
           result.write '='
         else
-          result.write '~' + escape_gift_chars(current_option[:body])
+          result.write '~'
         end
         result.write escape_gift_chars(current_option[:body]) + "\n"
       end
