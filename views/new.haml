@@ -1,43 +1,50 @@
-%form#quiz-form{action: "/", method: "post"}
-  %p 
-    %input{type: "text", name: "quiz[theme]", placeholder: "Quiz theme"}
-  %textarea{name: "quiz[body]", cols: 30, rows: 15, placeholder: "Type quiz here"}
-  %p
-    Select a question prefix
-    %br
-    %select{name: "quiz[question_prefix]"}
-      %option{value: "^\\d+\\."} Number with point
-      %option{value: "^\\d+\\)"} Number with close-bracket
-  %p
-    Select an option prefix
-    %br
-    %select{name: "quiz[option_prefix]"}
-      %option{value: "^\\s*.+?\\."} Any character with point
-      %option{value: "^\\s*[A-Z]\\."} Capital latin letter with point
-      %option{value: "^\\s*[A-z]\\."} Any latin letter with point
-      %option{value: "^\\s*[a-z]\\."} Small latin letter with point
-      %option{value: "^\\s*[a-z]\\)"} Small latin letter with close-bracket
-      %option{value: "^\\s*[A-Z]\\)"} Capital latin letter with close-bracket
-      %option{value: "^\\s*[A-z]\\)"} Any latin letter with close-bracket
-  %p
-    Type correct option suffix
-    %br
-    %input{type: "text", name: "quiz[option_correct]", placeholder: "+"}
-  %p
-    %input{type: "submit", value: "Submit"}
-    :javascript
-      $( document ).ready(function() {
-        $( "#quiz-form" ).submit(function(event) {
-          data = $( "#quiz-form" ).serialize();
-          $.ajax({
-            type: "POST",
-            url: "/",
-            data: data,
-            dataType: "html"
-          }).done( function (response) {
-            $( "#results" ).html(response)
-          })
-          event.preventDefault();
-        });
-      });
-#results
+.row
+  .col-sm-6
+    %form#quiz-form{action: "/", method: "post", role: "form"}
+      .form-group
+        %label{for: "theme"} Quiz theme
+        %input.form-control#theme#focusedInput{type: "text", name: "quiz[theme]", placeholder: "Type here"}
+      .form-group
+        %label{for: "quiz-text"} Quiz
+        %textarea.form-control#quiz-text#focusedInput{name: "quiz[body]", rows: 15, placeholder: "Type quiz here"}
+      .row
+        .col-sm-6
+          .form-group
+            %label{for: "ques-pref"} Question prefix
+            %select.form-control#ques-pref#focusedInput{name: "quiz[question_prefix]"}
+              %option{value: "^\\d+\\."} Number with point
+              %option{value: "^\\d+\\)"} Number with close-bracket
+        .col-sm-6
+          .form-group
+            %label{for: "opt-pref"} Option prefix
+            %select.form-control#opt-pref#focusedInput{name: "quiz[option_prefix]"}
+              %option{value: "^\\s*.+?\\."} Any character with point
+              %option{value: "^\\s*[A-Z]\\."} Capital latin letter with point
+              %option{value: "^\\s*[A-z]\\."} Any latin letter with point
+              %option{value: "^\\s*[a-z]\\."} Small latin letter with point
+              %option{value: "^\\s*[a-z]\\)"} Small latin letter with close-bracket
+              %option{value: "^\\s*[A-Z]\\)"} Capital latin letter with close-bracket
+              %option{value: "^\\s*[A-z]\\)"} Any latin letter with close-bracket
+      .form-group
+        %label{for: "opt-suff"} Correct option suffix
+        %input.form-control#opt-suff#focusedInput{type: "text", name: "quiz[option_correct]", placeholder: "+"}
+      .form-group
+        %input.btn.btn-success{type: "submit", value: "Submit"}
+        :javascript
+          $( document ).ready(function() {
+            $( "#quiz-form" ).submit(function(event) {
+              data = $( "#quiz-form" ).serialize();
+              $.ajax({
+                type: "POST",
+                url: "/",
+                data: data,
+                dataType: "html"
+              }).done( function (response) {
+                $( "#results" ).html(response)
+              })
+              event.preventDefault();
+            });
+          });
+  .col-sm-6
+    #results
+      .text-info Your result will be here

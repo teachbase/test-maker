@@ -1,7 +1,10 @@
 %head
   %title Test Maker
-%body
   %script{src: "https://code.jquery.com/jquery-2.2.3.min.js"}
-  %h1 Test maker
+  %link{rel: "stylesheet", href: "/css/bootstrap.min.css", type: "text/css", media: "all"}
+%body
+  %nav.navbar.h2.text-center Test maker
   .content
-    = content
+    .jumbotron
+      .container
+        = content
