@@ -3,48 +3,42 @@
     %form#quiz-form{action: "/", method: "post", role: "form"}
       .form-group
         %label{for: "theme"} Quiz theme
-        %input.form-control#theme#focusedInput{type: "text", name: "quiz[theme]", placeholder: "Type here"}
+        %input.form-control#theme{type: "text", name: "quiz[theme]", placeholder: "Type here"}
       .form-group
         %label{for: "quiz-text"} Quiz
-        %textarea.form-control#quiz-text#focusedInput{name: "quiz[body]", rows: 15, placeholder: "Type quiz here"}
+        %textarea.form-control#quiz-text{name: "quiz[body]", rows: 15, placeholder: "Type quiz here"}
       .row
         .col-sm-6
           .form-group
             %label{for: "ques-pref"} Question prefix
-            %select.form-control#ques-pref#focusedInput{name: "quiz[question_prefix]"}
+            %select.form-control.hidden#ques-pref{name: "quiz[question_prefix]"}
               %option{value: "^\\d+\\."} Number with point
               %option{value: "^\\d+\\)"} Number with close-bracket
         .col-sm-6
           .form-group
             %label{for: "opt-pref"} Option prefix
-            %select.form-control#opt-pref#focusedInput{name: "quiz[option_prefix]"}
-              %option{value: "^\\s*.+?\\."} Any character with point
-              %option{value: "^\\s*[A-Z]\\."} Capital latin letter with point
-              %option{value: "^\\s*[A-z]\\."} Any latin letter with point
-              %option{value: "^\\s*[a-z]\\."} Small latin letter with point
-              %option{value: "^\\s*[a-z]\\)"} Small latin letter with close-bracket
-              %option{value: "^\\s*[A-Z]\\)"} Capital latin letter with close-bracket
-              %option{value: "^\\s*[A-z]\\)"} Any latin letter with close-bracket
+            %input.form-control.hidden#opt-pref{name: "quiz[option_prefix]", value: "^\\s*.+?\\."}
+              / %option{value: "^\\s*.+?\\."} Any character with point
+              / %option{value: "^\\s*[A-Z]\\."} Capital latin letter with point
+              / %option{value: "^\\s*[A-z]\\."} Any latin letter with point
+              / %option{value: "^\\s*[a-z]\\."} Small latin letter with point
+              / %option{value: "^\\s*[a-z]\\)"} Small latin letter with close-bracket
+              / %option{value: "^\\s*[A-Z]\\)"} Capital latin letter with close-bracket
+              / %option{value: "^\\s*[A-z]\\)"} Any latin letter with close-bracket
+            .dropdown
+              %button.btn.btn-default.dropdown-toggle{type: "button", "data-toggle": "dropdown"}
+                Any character with point
+                %span.caret
+              %ul.dropdown-menu
+                %li
+                  %a{href: "", onclick: "dropdownSelection()"} Any character with point
+                %li
+                  %a{href: ""} Capital latin letter with point
       .form-group
         %label{for: "opt-suff"} Correct option suffix
-        %input.form-control#opt-suff#focusedInput{type: "text", name: "quiz[option_correct]", placeholder: "+"}
+        %input.form-control#opt-suff{type: "text", name: "quiz[option_correct]", placeholder: "+"}
       .form-group
-        %input.btn.btn-success{type: "submit", value: "Submit"}
-        :javascript
-          $( document ).ready(function() {
-            $( "#quiz-form" ).submit(function(event) {
-              data = $( "#quiz-form" ).serialize();
-              $.ajax({
-                type: "POST",
-                url: "/",
-                data: data,
-                dataType: "html"
-              }).done( function (response) {
-                $( "#results" ).html(response)
-              })
-              event.preventDefault();
-            });
-          });
+        %input.btn.btn-success{type: "submit", value: "Submit", onclick: 'sendData()'}
   .col-sm-6
     #results
       .text-info Your result will be here
