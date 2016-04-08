@@ -1,35 +1,37 @@
+:javascript
+  tooltips();
 .row
   .col-sm-6
     %form.affix-top#quiz-form{action: "/", method: "post", role: "form"}
       .form-group
-        %label{for: "theme"} Quiz theme
-        %input.form-control#theme{type: "text", name: "quiz[theme]", placeholder: "Type here"}
+        %label{for: "theme"} Название теста
+        %input.form-control#theme{type: "text", name: "quiz[theme]", "data-toggle": "tooltip", title: "Будет использовано для названия файла"}
       .form-group
-        %label{for: "quiz-text"} Quiz
-        %textarea.form-control#quiz-text{name: "quiz[body]", rows: 15, placeholder: "Type quiz here"}
+        %label{for: "quiz-text"} Тест
+        %textarea.form-control#quiz-text{name: "quiz[body]", rows: 26, placeholder: "Введите текст теста"}
       .row
         .col-sm-6
           .form-group
-            %label{for: "ques-pref"} Question prefix
+            %label{for: "ques-pref"} Начало вопроса
             %select.form-control{name: "quiz[question_prefix]"}
-              %option{value: "^\\d+\\."} Number with point
-              %option{value: "^\\d+\\)"} Number with close-bracket
+              %option{value: "^\\d+\\.", title: "Примеры: 1., 13."} Номер с точкой
+              %option{value: "^\\d+\\)", title: "Примеры: 1), 13)"} Номер со скобкой
         .col-sm-6
           .form-group
-            %label{for: "opt-pref"} Option prefix
+            %label{for: "opt-pref"} Начало варианта ответа
             %select.form-control{name: "quiz[option_prefix]"}
-              %option{value: "^\\s*.+?\\."} Any character with point
-              %option{value: "^\\s*[A-Z]\\."} Capital latin letter with point
-              %option{value: "^\\s*[A-z]\\."} Any latin letter with point
-              %option{value: "^\\s*[a-z]\\."} Small latin letter with point
-              %option{value: "^\\s*[a-z]\\)"} Small latin letter with close-bracket
-              %option{value: "^\\s*[A-Z]\\)"} Capital latin letter with close-bracket
-              %option{value: "^\\s*[A-z]\\)"} Any latin letter with close-bracket
+              %option{value: "^\\s*.+?\\.", title: "Примеры: в., й.,"} Символ с точкой
+              %option{value: "^\\s*[A-Z]\\.", title: "Примеры: A., D.,"} Заглавная латинская буква с точкой
+              %option{value: "^\\s*[A-z]\\.", title: "Примеры: A., d.,"} Латинская буква с точкой
+              %option{value: "^\\s*[a-z]\\.", title: "Примеры: a., d.,"} Строчная латинская буква с точкой
+              %option{value: "^\\s*[A-Z]\\)", title: "Примеры: A), D),"} Заглавная латинская буква со скобкой
+              %option{value: "^\\s*[A-z]\\)", title: "Примеры: A), d),"} Латинская буква со скобкой
+              %option{value: "^\\s*[a-z]\\)", title: "Примеры: a), d),"} Строчная латинская буква со скобкой
       .form-group
-        %label{for: "opt-suff"} Correct option suffix
-        %input.form-control#opt-suff{type: "text", name: "quiz[option_correct]", placeholder: "+"}
+        %label{for: "opt-suff"} Окончание правильных ответов
+        %input.form-control#opt-suff{type: "text", name: "quiz[option_correct]", placeholder: "По умолчанию + или *", "data-toggle": "tooltip", title: "Если вы используете несколько вариантов окончаний, введите их через |", "data-placement": "auto bottom"}
       .form-group
-        %input.btn.btn-success{type: "submit", value: "Submit", onclick: 'sendData()'}
+        %input.btn.btn-success#submit-btn{type: "submit", value: "Распознать", onclick: 'sendData()'}
   .col-sm-6
     #results
-      .text-info Your result will be here
+      .text-info Распознанные вопросы будут здесь
