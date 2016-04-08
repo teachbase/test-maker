@@ -28,6 +28,7 @@ Cuba.define do
     on root do
       on param(:quiz) do |quiz|
         set_quiz_options(quiz)
+        # binding.pry
 
         questions = convert(quiz["body"], question_prefix: quiz["question_prefix"],
                                           option_prefix: quiz["option_prefix"],

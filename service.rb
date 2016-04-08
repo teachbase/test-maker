@@ -11,12 +11,12 @@ module Service
   end
 
   def escape_regexp_chars(str)
-    pattern = /[\.\+\*\?]/
+    pattern = /[\.\+\*\?\(\)]/
     str.gsub(pattern) { |match| '\\' + match }
   end
 
   def to_suffix(str)
-    '(' + escape_regexp_chars(str) + '?)'
+    '((' + escape_regexp_chars(str) + ')?)'
   end
 
   def set_quiz_options(quiz)
