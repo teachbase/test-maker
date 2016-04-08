@@ -1,3 +1,5 @@
+%p
+  %a.btn.btn-primary#download-link{href: session[:path], download: true} Download
 %label{for: "quiz"} Is it correct?
 %ul.list-group#quiz
   - questions.each do |question|
@@ -11,4 +13,3 @@
           - else
             %li.list-group-item
               = option[:body]
-%a.btn.btn-primary#download-link{href: session[:path], download: true} Download
