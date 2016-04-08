@@ -1,15 +1,14 @@
-%ul
+%label{for: "quiz"} Is it correct?
+%ul.list-group#quiz
   - questions.each do |question|
-    %li.question-item
+    %li.list-group-item
       = question.title
-      %ul
+      %ul.list-group
         - question.options.each do |option|
           - if option[:correct]
-            %li.option-item.correct-option{style: "background-color:#009900"}
-              .field.body
-                = option[:body]
+            %li.list-group-item.list-group-item-success
+              = option[:body]
           - else
-            %li.option-item
-              .field.body
-                = option[:body]
-%a#download-link{href: session[:path], download: true} Download
+            %li.list-group-item
+              = option[:body]
+%a.btn.btn-primary#download-link{href: session[:path], download: true} Download

@@ -7,7 +7,7 @@ require "fileutils"
 require "./controller"
 
 use Rack::Static,
-  urls: ["/upload"],
+  urls: ["/upload", "/css"],
   root: "./public"
 use Rack::Session::Cookie,
   secret: "secret_of_session"
