@@ -1,6 +1,6 @@
 .row
   .col-sm-6
-    %form#quiz-form{action: "/", method: "post", role: "form"}
+    %form.affix-top#quiz-form{action: "/", method: "post", role: "form"}
       .form-group
         %label{for: "theme"} Quiz theme
         %input.form-control#theme{type: "text", name: "quiz[theme]", placeholder: "Type here"}
@@ -11,29 +11,20 @@
         .col-sm-6
           .form-group
             %label{for: "ques-pref"} Question prefix
-            %select.form-control.hidden#ques-pref{name: "quiz[question_prefix]"}
+            %select.form-control{name: "quiz[question_prefix]"}
               %option{value: "^\\d+\\."} Number with point
               %option{value: "^\\d+\\)"} Number with close-bracket
         .col-sm-6
           .form-group
             %label{for: "opt-pref"} Option prefix
-            %input.form-control.hidden#opt-pref{name: "quiz[option_prefix]", value: "^\\s*.+?\\."}
-              / %option{value: "^\\s*.+?\\."} Any character with point
-              / %option{value: "^\\s*[A-Z]\\."} Capital latin letter with point
-              / %option{value: "^\\s*[A-z]\\."} Any latin letter with point
-              / %option{value: "^\\s*[a-z]\\."} Small latin letter with point
-              / %option{value: "^\\s*[a-z]\\)"} Small latin letter with close-bracket
-              / %option{value: "^\\s*[A-Z]\\)"} Capital latin letter with close-bracket
-              / %option{value: "^\\s*[A-z]\\)"} Any latin letter with close-bracket
-            .dropdown
-              %button.btn.btn-default.dropdown-toggle{type: "button", "data-toggle": "dropdown"}
-                Any character with point
-                %span.caret
-              %ul.dropdown-menu
-                %li
-                  %a{href: "", onclick: "dropdownSelection()"} Any character with point
-                %li
-                  %a{href: ""} Capital latin letter with point
+            %select.form-control{name: "quiz[option_prefix]"}
+              %option{value: "^\\s*.+?\\."} Any character with point
+              %option{value: "^\\s*[A-Z]\\."} Capital latin letter with point
+              %option{value: "^\\s*[A-z]\\."} Any latin letter with point
+              %option{value: "^\\s*[a-z]\\."} Small latin letter with point
+              %option{value: "^\\s*[a-z]\\)"} Small latin letter with close-bracket
+              %option{value: "^\\s*[A-Z]\\)"} Capital latin letter with close-bracket
+              %option{value: "^\\s*[A-z]\\)"} Any latin letter with close-bracket
       .form-group
         %label{for: "opt-suff"} Correct option suffix
         %input.form-control#opt-suff{type: "text", name: "quiz[option_correct]", placeholder: "+"}

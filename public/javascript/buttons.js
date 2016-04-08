@@ -8,7 +8,7 @@ function sendData() {
         data: data,
         dataType: "html"
       }).done( function (response) {
-        $( "#results" ).html(response)
+        $( "#results" ).html(response);
       })
       event.preventDefault();
     });
