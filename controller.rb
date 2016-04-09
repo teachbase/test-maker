@@ -15,11 +15,15 @@ Cuba.define do
     end
 
     on "sess" do
-      res.write session[:message]
+      session.clear
+      res.redirect "new"
+    end
+
+    on "error" do
+      res.status = 500
     end
 
     on root do
-      session[:message] = "Redirected"
       res.redirect "new"
     end
   end
@@ -28,22 +32,30 @@ Cuba.define do
     on root do
       on param(:quiz) do |quiz|
         set_quiz_options(quiz)
-        # binding.pry
 
         questions = convert(quiz["body"], question_prefix: quiz["question_prefix"],
                                           option_prefix: quiz["option_prefix"],
                                           option_correct: quiz["option_correct"])
-
-        set_path(quiz["theme"]) if session[:filename].nil? || !File.exist?(session[:filename])
-
-        write_result(questions)
-
-        res.write partial :quiz_preview, questions: questions
+        if questions.nil?
+          res.redirect "error"
+        else
+          set_path(quiz["theme"])
+          write_result(questions)
+          res.write partial :_quiz_preview, questions: questions
+        end
       end
     end
 
     on true do
-      res.write "Error"
+      res.redirect "error"
+    end
+  end
+
+  on delete do
+    on root do
+      FileUtils.rm_rf File.dirname(session[:filename]) if session[:dirname]
+      session.clear
+      res.status = 200
     end
   end
 end

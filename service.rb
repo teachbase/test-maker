@@ -4,7 +4,7 @@ module Service
 
   def convert(quiz, options = {})
     strings = quiz.split(/[\n\r]/).map do |string|
-      string.gsub(/[\n\r]/) { |_| '' }
+      string.gsub(/[\n\r]/, '')
     end
 
     Converter.convert(strings, options)
@@ -26,9 +26,10 @@ module Service
   end
 
   def set_path(name)
-    session[:path] ||= "/upload/#{SecureRandom.hex(4)}/#{name}.txt"
+    session[:dirname] ||= SecureRandom.hex(4)
+    session[:path] = "/upload/#{session[:dirname]}/#{name}.txt"
     session[:filename] = "public" + session[:path]
-    FileUtils.mkdir_p File.dirname session[:filename]
+    FileUtils.mkdir_p "public/upload/" + session[:dirname]
   end
 
   def write_result(questions)
