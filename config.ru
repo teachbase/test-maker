@@ -1,6 +1,6 @@
 require "cuba"
 require "cuba/render"
-require "haml"
+require "tilt/haml"
 require "pry-byebug"
 require "fileutils"
 
