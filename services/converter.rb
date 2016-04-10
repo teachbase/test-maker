@@ -11,6 +11,9 @@ module Service
       current_string = strings.shift
       until current_string =~ question_regexp do
         current_string = strings.shift
+        if current_string.nil?
+          return nil
+        end
       end
 
       result = []

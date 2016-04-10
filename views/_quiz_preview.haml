@@ -1,0 +1,19 @@
+.form-group
+  %label{for: "quiz"} Распознанные вопросы:
+  .pre-scrollable
+    %ol.list-group#quiz
+      - num = 1
+      - questions.each do |question|
+        %li.list-group-item
+          = Rack::Utils.escape_html("#{num}. " + question.title)
+          - num += 1
+          %ul.list-group
+            - question.options.each do |option|
+              - if option[:correct]
+                %li.list-group-item.list-group-item-success
+                  = Rack::Utils.escape_html option[:body]
+              - else
+                %li.list-group-item
+                  = Rack::Utils.escape_html option[:body]
+.form-group
+  %a.btn.btn-primary#download-link{href: session[:path], download: true} Скачать gift файл
