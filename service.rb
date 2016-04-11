@@ -15,6 +15,11 @@ module Service
     str.gsub(pattern) { |match| '\\' + match }
   end
 
+  def escape_path_chars(str)
+    pattern = /[\/\s\\\"]/
+    str.gsub(pattern, '_')
+  end
+
   def to_suffix(str)
     '((' + escape_regexp_chars(str) + ')?)'
   end
@@ -27,13 +32,14 @@ module Service
 
   def set_path(name)
     session[:dirname] ||= SecureRandom.hex(4)
-    session[:path] = "/upload/#{session[:dirname]}/#{name}.txt"
+    session[:path] = "/upload/#{session[:dirname]}/#{escape_path_chars name}.txt"
     session[:filename] = "public" + session[:path]
+    FileUtils.rm_rf "public/upload/#{session[:dirname]}" if File.exist? "public/upload/" + session[:dirname]
     FileUtils.mkdir_p "public/upload/" + session[:dirname]
   end
 
   def write_result(questions)
-    result = File.open(session[:filename] , "w")
+    result = File.open(session[:filename], "w")
 
     questions.each do |question|
       question.write result
