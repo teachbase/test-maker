@@ -23,10 +23,6 @@ Cuba.define do
       res.status = 500
     end
 
-    on "upload/:dirname/:filename" do |dir, file|
-      
-    end
-
     on root do
       res.redirect "new"
     end
