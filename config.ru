@@ -10,7 +10,10 @@ use Rack::Static,
   root: "./public",
   header_rules: [
     [:all, { 'Cache-Control' => 'public, max-age=31536000' }],
-    [%w(txt), { 'Content-Type' => 'text/html; charset=utf-8' }]
+    [%w(txt), {
+      'Content-Type' => 'text/plain; charset=utf-8',
+      'Content-Disposition' => 'attachment;'
+    }]
   ]
 
 use Rack::Session::Cookie,

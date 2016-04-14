@@ -2,44 +2,44 @@ module Service
   class Converter
     attr_accessor :current_question
 
-    def self.convert(strings, question_prefix: '^\s*\d+\.', option_prefix: '^\s*.+?\.', option_correct: '(\+|\*?)')
+    def self.convert(strings, option_prefix: '^\s*[^\d\s]\.', option_correct: '(\+|\*?)')
       # init RegExps
-      question_regexp = Regexp.new question_prefix + '\s*(.+?)\:?\s*$'
+      # question_regexp = Regexp.new question_prefix + '\s*(.+?)\:?\s*$'
+      question_regexp = /^\s*\d+(\.|\))\s*(.+?)\s*$/
       option_regexp = Regexp.new option_prefix + '\s*(.+?)' + option_correct + '\s*$'
 
-      # skipping frist lines if they aren't questions
-      current_string = strings.shift
-      until current_string =~ question_regexp do
-        current_string = strings.shift
-        if current_string.nil?
-          return nil
-        end
-      end
-
       result = []
+      @last_parse = "opt"
 
       loop do
+        current_string = strings.shift
+
         # finish if EOF
         result << @current_question if current_string.nil? && !@current_question.nil?
         break if current_string.nil?
         current_string = current_string.chomp.sub("\xEF\xBB\xBF", "")
 
-        if current_string =~ question_regexp # new question
-          result << @current_question unless @current_question.nil?
-
-          @current_question = Question.new
-
-          @current_question.title = $1
+        if current_string =~ /^\s*$/ # empty line
+          next
         elsif current_string =~ option_regexp # add option
           @current_question.options.push(body: $1, correct: !($2 == ''))
-        elsif current_string =~ /^\s*$/ # empty line
-          current_string = strings.shift
-          next
-        elsif current_string =~ /\s*(.+?)\:?\s*$/ # multiline question
-          @current_question.title = @current_question.title + " #{$1}"
-        end
+          @last_parse = "opt"
+        else
+          if @last_parse == "opt" # new question
+            result << @current_question unless @current_question.nil?
 
-        current_string = strings.shift # in the end because when enter loop already have string
+            @current_question = Question.new
+            if current_string =~ question_regexp
+              @current_question.title = $2
+            else
+              @current_question.title = current_string
+            end
+
+            @last_parse = ""
+          else # multiline question
+            @current_question.title += " " + current_string
+          end
+        end
       end
 
       @current_question = nil

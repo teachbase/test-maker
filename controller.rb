@@ -33,8 +33,7 @@ Cuba.define do
       on param(:quiz) do |quiz|
         set_quiz_options(quiz)
 
-        questions = convert(quiz["body"], question_prefix: quiz["question_prefix"],
-                                          option_prefix: quiz["option_prefix"],
+        questions = convert(quiz["body"], option_prefix: quiz["option_prefix"],
                                           option_correct: quiz["option_correct"])
         if questions.nil?
           res.redirect "error"
