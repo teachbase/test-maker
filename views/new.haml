@@ -7,25 +7,17 @@
       .form-group
         %label{for: "quiz-text"} Тест
         %textarea.form-control#quiz-text{name: "quiz[body]", rows: 26, placeholder: "Введите текст теста"}
-      .row
-        .col-sm-6
-          .form-group
-            %label{for: "ques-pref"} Начало вопроса
-            %select.form-control{name: "quiz[question_prefix]"}
-              %option{value: "^\\d+\\.", title: "Примеры: 1., 13."} Номер с точкой
-              %option{value: "^\\d+\\)", title: "Примеры: 1), 13)"} Номер со скобкой
-        .col-sm-6
-          .form-group
-            %label{for: "opt-pref"} Начало варианта ответа
-            %select.form-control{name: "quiz[option_prefix]"}
-              %option{value: "^\\s*.+?\\.", title: "Примеры: в., й.,"} Символ с точкой
-              %option{value: "^\\s*[A-Z]\\.", title: "Примеры: A., D.,"} Заглавная латинская буква с точкой
-              %option{value: "^\\s*[A-z]\\.", title: "Примеры: A., d.,"} Латинская буква с точкой
-              %option{value: "^\\s*[a-z]\\.", title: "Примеры: a., d.,"} Строчная латинская буква с точкой
-              %option{value: "^\\s*.+?\\)", title: "Примеры: в), й),"} Символ со скобкой
-              %option{value: "^\\s*[A-Z]\\)", title: "Примеры: A), D),"} Заглавная латинская буква со скобкой
-              %option{value: "^\\s*[A-z]\\)", title: "Примеры: A), d),"} Латинская буква со скобкой
-              %option{value: "^\\s*[a-z]\\)", title: "Примеры: a), d),"} Строчная латинская буква со скобкой
+      .form-group
+        %label{for: "opt-pref"} Начало варианта ответа
+        %select.form-control{name: "quiz[option_prefix]"}
+          %option{value: "^\\s*[^\\d\\s]\\.", title: "Примеры: в., й.,"} Буква с точкой
+          %option{value: "^\\s*[A-Z]\\.", title: "Примеры: A., D.,"} Заглавная латинская буква с точкой
+          %option{value: "^\\s*[A-z]\\.", title: "Примеры: A., d.,"} Латинская буква с точкой
+          %option{value: "^\\s*[a-z]\\.", title: "Примеры: a., d.,"} Строчная латинская буква с точкой
+          %option{value: "^\\s*[^\\d\\s]\\)", title: "Примеры: в), й),"} Буква со скобкой
+          %option{value: "^\\s*[A-Z]\\)", title: "Примеры: A), D),"} Заглавная латинская буква со скобкой
+          %option{value: "^\\s*[A-z]\\)", title: "Примеры: A), d),"} Латинская буква со скобкой
+          %option{value: "^\\s*[a-z]\\)", title: "Примеры: a), d),"} Строчная латинская буква со скобкой
       .form-group
         %label{for: "opt-suff"} Окончание правильных ответов
         %input.form-control#opt-suff{type: "text", name: "quiz[option_correct]", placeholder: "По умолчанию + или *", "data-toggle" => "tooltip", title: "Если вы используете несколько вариантов окончаний, введите их через |", "data-placement" => "auto bottom"}
