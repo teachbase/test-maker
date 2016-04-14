@@ -2,5 +2,17 @@ source 'https://rubygems.org'
 
 gem 'cuba'
 gem 'haml'
-gem 'cutest'
-gem 'capybara'
+
+group :development, :test do
+  gem "pry-byebug"
+end
+
+group :test do
+  gem 'rspec'
+  gem 'cutest'
+  gem 'capybara'
+end
+
+group :production do
+  gem 'puma'
+end
