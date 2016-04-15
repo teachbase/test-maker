@@ -2,10 +2,14 @@ module Service
   require './services/converter'
   require './services/question'
 
-  def convert(quiz, options = {})
-    strings = quiz.split(/[\n\r]/).map do |string|
+  def split_strings(string)
+    string.split(/[\n\r]/).map do |string|
       string.gsub(/[\n\r]/, '')
     end
+  end
+
+  def convert(quiz, options = {})
+    strings = quiz.split_strings
 
     Converter.convert(strings, options)
   end

@@ -9,13 +9,20 @@
         %textarea.form-control#quiz-text{name: "quiz[body]", rows: 26, placeholder: "Введите текст теста"}
       .form-group
         %label{for: "opt-pref"} Начало варианта ответа
-        %select.form-control{name: "quiz[option_prefix]"}
-          %option{value: "^\\s*[^\\d\\s]\\.", title: "Примеры: в., й."} Буква с точкой
-          %option{value: "^\\s*[A-z]\\.", title: "Примеры: A., d."} Латинская буква с точкой
-          %option{value: "^\\s*\\d+\\.", title: "Примеры: 1., 10."} Номер с точкой
-          %option{value: "^\\s*[^\\d\\s]\\)", title: "Примеры: в), й)"} Буква со скобкой
-          %option{value: "^\\s*[A-z]\\)", title: "Примеры: A), d)"} Латинская буква со скобкой
-          %option{value: "^\\s*\\d+\\)", title: "Примеры: 1), 10)"} Номер со скобкой
+        #opt-pref
+          %label.radio-inline#auto
+            %input#auto-input{type: "radio", name: "opt"}
+            Автоматически
+          %label.radio-inline#not-auto
+            %input{type: "radio", name: "opt"}
+            Вручную
+            %select{name: "quiz[option_prefix]"}
+              %option{value: "^\\s*[^\\d\\s]\\.", title: "Примеры: в., й."} Буква с точкой
+              %option{value: "^\\s*[A-z]\\.", title: "Примеры: A., d."} Латинская буква с точкой
+              %option{value: "^\\s*\\d+\\.", title: "Примеры: 1., 10."} Номер с точкой
+              %option{value: "^\\s*[^\\d\\s]\\)", title: "Примеры: в), й)"} Буква со скобкой
+              %option{value: "^\\s*[A-z]\\)", title: "Примеры: A), d)"} Латинская буква со скобкой
+              %option{value: "^\\s*\\d+\\)", title: "Примеры: 1), 10)"} Номер со скобкой
       .form-group
         %label{for: "opt-suff"} Окончание правильных ответов
         %input.form-control#opt-suff{type: "text", name: "quiz[option_correct]", placeholder: "По умолчанию + или *", "data-toggle" => "tooltip", title: "Если вы используете несколько вариантов окончаний, введите их через |", "data-placement" => "auto bottom"}

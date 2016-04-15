@@ -29,6 +29,11 @@ Cuba.define do
   end
 
   on post do
+    on "auto" do
+      res.status = 200
+      res.write "Hello"
+    end
+
     on root do
       on param(:quiz) do |quiz|
         set_quiz_options(quiz)
@@ -43,10 +48,6 @@ Cuba.define do
           res.write partial :_quiz_preview, questions: questions
         end
       end
-    end
-
-    on true do
-      res.redirect "error"
     end
   end
 
