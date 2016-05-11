@@ -1,6 +1,6 @@
 .row
   .col-sm-6
-    %form.affix-top#quiz-form{action: "/", method: "post", role: "form"}
+    %form.affix-top#quiz-form{action: "/", method: "post", role: "form", 'accept-charset' => "UTF-8"}
       .form-group
         %label{for: "theme"} Название теста
         %input.form-control#theme{type: "text", name: "quiz[theme]", "data-toggle" => "tooltip", title: "Будет использовано для названия файла"}

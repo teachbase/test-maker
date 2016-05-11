@@ -39,12 +39,9 @@ module Service
   end
 
   def write_result(questions)
-    result = File.open(session[:filename], "w")
-
-    questions.each do |question|
-      question.write result
-    end
-
-    result.close
+    File.write(
+      session[:filename],
+      questions.inject("") { |acc, q| acc + q.to_gift_str }
+    )
   end
 end

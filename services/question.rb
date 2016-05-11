@@ -7,19 +7,20 @@ module Service
       @options = []
     end
 
-    def write(result)
-      result.write "#{ escape_gift_chars @title } {\n"
+    def to_gift_str
+      buf = "#{ escape_gift_chars @title } {\n"
 
       @options.each do |current_option|
         if current_option[:correct]
-          result.write '='
+          buf << '='
         else
-          result.write '~'
+          buf << '~'
         end
-        result.write escape_gift_chars(current_option[:body]) + "\n"
+          buf << "#{ escape_gift_chars(current_option[:body]) }\n"
       end
 
-      result.write "}\n"
+      buf << "}\n\n"
+      buf
     end
 
     def escape_gift_chars(str)

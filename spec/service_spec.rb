@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Service do
   include Service
 
-  describe "convert" do
+  xdescribe "convert" do
     let(:options) { {} }
     let(:result) { File.open file_path("result"), "w" }
     subject do
