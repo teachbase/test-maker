@@ -1,6 +1,5 @@
-# FROM ruby:2.3
-# Doesn't build puma with ruby:2.3 image
-FROM cr.yandex/crptb586h3j8u2bd3hru/tb-dbi:1.0.5
+# with puma dependencies
+FROM teachbase-dev:1.0.1
 
 ENV LANG C.UTF-8  
 
